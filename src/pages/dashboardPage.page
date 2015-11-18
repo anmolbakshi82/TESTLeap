@@ -1,0 +1,150 @@
+<apex:page controller="VfReportsDashboards" >  
+
+<style type="text/css">
+    .cellStyle 
+    {        
+        border:1px outset white;
+        border-color: #87CEFA;
+        text-align: center;
+        white-space: nowrap;
+    }
+    .th 
+    { 
+       background-color:#0099FF;
+       color: white;
+       border-color: white;
+       text-align: center;
+    }
+    .cellStyleL
+    {        
+        border:1px outset white;
+        border-color: #A4A4A4;
+        text-align: center;
+        white-space: nowrap;
+        background-color: red;
+    }
+    .cellStyleM
+    {        
+        border:1px outset white;
+        border-color: #A4A4A4;
+        text-align: center;
+        white-space: nowrap;
+        background-color: yellow;
+    }
+    .cellStyleR
+    {        
+        border:1px outset white;
+        border-color: #A4A4A4;
+        text-align: center;
+        white-space: nowrap;
+        background-color: green;
+    }
+    .cellStyleG
+    {        
+        border:1px outset white;
+        border-color: #A4A4A4;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #A4A4A4;
+    }
+    
+</style>
+<apex:Form id="frmCalls">
+    <apex:PageBlock id="listEvents" rendered="true" >
+        <apex:dataTable var="cntCalls" value="{!countRecords}" cellpadding="5" width="80%" headerClass="th">
+            <apex:column headerValue="Owner" styleClass="cellStyle">
+                <apex:image url="{!cntCalls.photoURL}" width="40" height="40" />
+                <br></br>
+                <apex:commandLink value="{!cntCalls.ownerName}" action="{!loadOwner}"> 
+                   <apex:param name="ownerId" value="{!cntCalls.Id}" assignTo="{!ownerID}" />
+                   <apex:param name="ownerId" value="{!cntCalls.Id}" assignTo="{!ownerID}" />
+                </apex:commandLink>
+            </apex:column>
+            <apex:column styleClass="cellStyle" style="text-align: center; vertical-align: middle;"> 
+                <apex:facet name="header">
+                    # Calls<br/>This Week
+                </apex:facet>
+                <apex:outputText >{!cntCalls.countActivities}</apex:outputText>
+            </apex:column>
+ 
+            <apex:column value="{!cntCalls.target}" styleClass="{!IF(cntCalls.target < 30.0,'cellStyleL',IF(cntCalls.target <= 50.0,'cellStyleM','cellStyleR' ))}" style="text-align: center; vertical-align: middle;"> 
+                <apex:facet name="header">
+                    % Target<br/>This Week
+                </apex:facet>
+            </apex:column>
+
+            <apex:column styleClass="cellStyle" style="text-align: center; vertical-align: middle;"> 
+                <apex:facet name="header">
+                    # Calls<br/>Last Week
+                </apex:facet>
+                <apex:outputText >{!cntCalls.countActivitiesLW}</apex:outputText>
+            </apex:column>
+
+            <apex:column value="{!cntCalls.targetLW}" styleClass="{!IF(cntCalls.targetLW < 30.0,'cellStyleL',IF(cntCalls.targetLW <= 50.0,'cellStyleM','cellStyleR' ))}" style="text-align: center; vertical-align: middle;"> 
+                <apex:facet name="header">
+                    % Target<br/>Last Week
+                </apex:facet>
+            </apex:column>
+ 
+            <apex:column styleClass="cellStyle" style="text-align: center; vertical-align: middle;"> 
+                <apex:facet name="header">
+                    # Calls<br/>Last Month
+                </apex:facet>
+                <apex:outputText >{!cntCalls.countActivitiesLM}</apex:outputText>
+            </apex:column>
+
+            <apex:column value="{!cntCalls.targetLM}" styleClass="{!IF(cntCalls.targetLM < 30.0,'cellStyleL',IF(cntCalls.targetLM <= 50.0,'cellStyleM','cellStyleR' ))}" style="text-align: center; vertical-align: middle;"> 
+                <apex:facet name="header">
+                    % Target<br/>Last Month
+                </apex:facet>            
+            </apex:column>
+
+            <apex:column styleClass="cellStyle" style="text-align: center; vertical-align: middle;"> 
+                <apex:facet name="header">
+                    # New Contacts<br/>This Week
+                </apex:facet> 
+                <apex:outputText >{!cntCalls.countContact}</apex:outputText>
+            </apex:column>
+            <apex:column styleClass="cellStyle" style="text-align: center; vertical-align: middle;"> 
+                <apex:facet name="header">
+                    # New Accounts<br/>This Week
+                </apex:facet> 
+                <apex:outputText >{!cntCalls.countAccount}</apex:outputText>
+            </apex:column>       
+            
+            <!--
+                  <apex:column headerValue="Owner" styleClass="cellStyle"> 
+                 <apex:commandLink value="{!cntCalls.ownerName}" action="{!loadOwner}"> 
+                    <apex:param name="ownerId" value="{!cntCalls.Id}" assignTo="{!ownerID}" />
+                    <apex:param name="ownerId" value="{!cntCalls.Id}" assignTo="{!ownerID}" />
+                 </apex:commandLink>
+                 </apex:column>
+            <apex:column headerValue="# Calls Last Week" styleClass="cellStyle"> 
+                <apex:outputText >{!cntCalls.countActivities}</apex:outputText>
+            </apex:column>
+            <apex:column headerValue="Target Last Week" styleClass="cellStyle"> 
+                <apex:outputText >{!cntCalls.target}</apex:outputText>
+            </apex:column>  
+        
+        
+
+                  <apex:column headerValue="Owner" styleClass="cellStyle"> 
+                 <apex:commandLink value="{!cntCalls.ownerName}" action="{!loadOwner}"> 
+                    <apex:param name="ownerId" value="{!cntCalls.Id}" assignTo="{!ownerID}" />
+                    <apex:param name="ownerId" value="{!cntCalls.Id}" assignTo="{!ownerID}" />
+                 </apex:commandLink>
+                 </apex:column>
+            <apex:column headerValue="# Calls Last Month" styleClass="cellStyle"> 
+                <apex:outputText >{!cntCalls.countActivities}</apex:outputText>
+            </apex:column>
+            <apex:column headerValue="Target Last Month" styleClass="cellStyle"> 
+                <apex:outputText >{!cntCalls.target}</apex:outputText>
+            </apex:column> 
+            -->
+            </apex:dataTable>
+    </apex:PageBlock>
+</apex:Form>
+
+     
+  
+</apex:page>

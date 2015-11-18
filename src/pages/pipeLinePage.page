@@ -1,0 +1,113 @@
+<apex:page controller="VfReportsDashboards" >
+<style type="text/css">
+    .cellStyle 
+    {        
+        border:1px outset white;
+        border-color: #87CEFA;
+        text-align: center;
+        white-space: nowrap;
+    }
+    .th 
+    { 
+       background-color:#0099FF;
+       color: white;
+       border-color: white;
+       text-align: center;
+    }
+
+    
+</style>
+<apex:Form id="frmCalls">
+    <apex:PageBlock id="listEvents" rendered="true" >
+        <apex:dataTable var="cntCalls" value="{!countRecords}" cellpadding="5" width="1%" headerClass="th">
+            <apex:column headerValue="Owner" styleClass="cellStyle">
+                <apex:image url="{!cntCalls.photoURL}" width="40" height="40" />
+                <br></br>
+                <apex:commandLink value="{!cntCalls.ownerName}" action="{!loadOwner}"> 
+                   <apex:param name="ownerId" value="{!cntCalls.Id}" assignTo="{!ownerID}" />
+                   <apex:param name="ownerId" value="{!cntCalls.Id}" assignTo="{!ownerID}" />
+                </apex:commandLink>
+            </apex:column>
+            <apex:column styleClass="cellStyle" style="text-align: center; vertical-align: middle;">
+                <apex:facet name="header">
+                    # New Leads<br/>This Week
+                </apex:facet>  
+                <apex:outputText > {!cntCalls.countLead} </apex:outputText>
+            </apex:column>
+ 
+            <apex:column styleClass="cellStyle" style="text-align: center; vertical-align: middle;" > 
+                <apex:facet name="header">
+                    # New Opps<br/>This Week
+                </apex:facet> 
+                <apex:outputText >{!cntCalls.countOpportunity}</apex:outputText>
+            </apex:column>
+
+            <apex:column styleClass="cellStyle" style="text-align: center; vertical-align: middle;"> 
+                <apex:facet name="header">
+                    Prospect<br/>(10%)
+                </apex:facet>             
+                <apex:outputText >{!cntCalls.countProspect}</apex:outputText>
+            </apex:column>
+
+            <apex:column styleClass="cellStyle" style="text-align: center; vertical-align: middle;"> 
+                <apex:facet name="header">
+                    Tentative<br/>(70%)
+                </apex:facet>             
+                <apex:outputText >{!cntCalls.countTentative}</apex:outputText>
+             </apex:column>
+ 
+            <apex:column styleClass="cellStyle" style="text-align: center; vertical-align: middle;"> 
+                <apex:facet name="header">
+                    Definite<br/>(80%)
+                </apex:facet>               
+                <apex:outputText >{!cntCalls.countDefinite}</apex:outputText>
+            </apex:column>
+
+            <apex:column styleClass="cellStyle" style="text-align: center; vertical-align: middle;"> 
+                <apex:facet name="header">
+                    Consumed<br/>(100%)
+                </apex:facet>             
+                <apex:outputText >{!cntCalls.countConsumed}</apex:outputText>
+            </apex:column>
+
+            <apex:column styleClass="cellStyle" style="text-align: center; vertical-align: middle;">
+                <apex:facet name="header">
+                    Total<br/>Pipeline
+                </apex:facet>
+                <apex:outputText >{!cntCalls.countTotalPipeLine}</apex:outputText>
+            </apex:column>
+            <apex:column styleClass="cellStyle" style="text-align: center; vertical-align: middle;"> 
+                <apex:facet name="header">
+                    Total<br/>Factored
+                </apex:facet>            
+                <apex:outputText >{!cntCalls.totalFactored}</apex:outputText>
+            </apex:column>       
+            
+            
+            <apex:column styleClass="cellStyle" style="text-align: center; vertical-align: middle;"> 
+                <apex:facet name="header">
+                    Cancelled<br/>Definite<br/>(0%)
+                </apex:facet>             
+                <apex:outputText >{!cntCalls.countCanDef}</apex:outputText>
+            </apex:column>
+
+            <apex:column styleClass="cellStyle" style="text-align: center; vertical-align: middle;"> 
+                <apex:facet name="header">
+                    Cancelled<br/>(0%)
+                </apex:facet>              
+                <apex:outputText >{!cntCalls.countCancelled}</apex:outputText>
+            </apex:column>
+            <apex:column styleClass="cellStyle" style="text-align: center; vertical-align: middle;"> 
+                <apex:facet name="header">
+                    Turned Down<br/>(0%)
+                </apex:facet>            
+                <apex:outputText >{!cntCalls.countTurnedDown}</apex:outputText>
+            </apex:column>  
+
+            </apex:dataTable>
+    </apex:PageBlock>
+</apex:Form>
+
+     
+  
+</apex:page>
